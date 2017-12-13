@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {IngestService} from '../../shared/ingest.service';
 import {AuthService} from '../../auth/auth.service';
 import {Observable} from "rxjs/Observable";
-import {Summary} from "./summary";
+import {Summary} from "../../shared/models/summary";
 
 @Component({
   selector: 'app-welcome',
@@ -27,6 +27,6 @@ export class WelcomeComponent implements OnInit {
         this.profile = profile;
       });
     }
-    this.summary$ = this.ingestService.getSummary();
+    this.summary$ = this.ingestService.getUserSummary();
   }
 }

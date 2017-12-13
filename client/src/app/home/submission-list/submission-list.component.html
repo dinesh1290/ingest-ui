@@ -16,12 +16,12 @@
       <tr *ngFor="let submissionEnvelope of submissionEnvelopes">
         <td>{{submissionEnvelope.updateDate | date: "shortDate"}}</td>
         <td>
-          <a routerLink="/submissions/{{getSubmissionId(submissionEnvelope)}}" class="text-info" >{{getSubmissionId(submissionEnvelope)}}</a>
+          <a routerLink="/submissions/{{getSubmissionId(submissionEnvelope)}}" class="text-info" >{{submissionEnvelope.uuid.uuid}}</a>
         </td>
         <td>Tissue Stability</td>
         <td>
           <div [ngSwitch]="submissionEnvelope.submissionState">
-            <span *ngSwitchCase="'Pending'" class="badge badge-warning">{{submissionEnvelope.submissionState}}</span>
+            <span *ngSwitchCase="'Pending'" class="badge badge-light">{{submissionEnvelope.submissionState}}</span>
             <span *ngSwitchCase="'Draft'" class="badge badge-warning">{{submissionEnvelope.submissionState}}</span>
             <span *ngSwitchCase="'Validating'" class="badge badge-info">{{submissionEnvelope.submissionState}}</span>
             <span *ngSwitchCase="'Valid'" class="badge badge-success">{{submissionEnvelope.submissionState}}</span>
