@@ -23,6 +23,11 @@ export class UploadComponent implements OnInit {
   ngOnInit() {
   }
 
+  resetMessages() {
+    this.uploadResults$ = null;
+    this.error$ = null;
+  }
+
   upload() {
     let fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {

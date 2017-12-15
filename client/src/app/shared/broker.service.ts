@@ -10,7 +10,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class BrokerService {
 
-  API_URL: string = 'http://localhost:5000';
+  API_URL: string = 'http://ingest.integration.data.humancellatlas.org';
 
   constructor(private http: HttpClient) {
   }
@@ -24,7 +24,7 @@ export class BrokerService {
   }
 
   public uploadSpreadsheet(formData): Observable<UploadResults> {
-    return this.http.post<UploadResults>(`${this.API_URL}/upload`, formData)
+    return this.http.post<UploadResults>(`${this.API_URL}/api_upload`, formData)
       .pipe(
         tap(data => console.log('server data:', data)),
         catchError(this.handleError('uploadSpreadsheet'))

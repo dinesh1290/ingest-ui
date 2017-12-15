@@ -90,7 +90,7 @@ export function tokenGetter(): string {
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        whitelistedDomains: ['localhost:8080', 'localhost:5000', 'api.ingest.integration.data.humancellatlas.org']
+        whitelistedDomains: ['localhost:8080', 'localhost:5000', 'api.ingest.integration.data.humancellatlas.org', 'ingest.integration.data.humancellatlas.org']
       }
     }),
     SharedModule,

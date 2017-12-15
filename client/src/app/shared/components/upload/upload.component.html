@@ -1,20 +1,24 @@
 <div class="card">
-  <div class="card-header">Upload Spreadsheet</div>
   <div class="card-body">
     <div class="form-group">
-      <a href="assets/empty-spreadsheet-v3.xlsx" target="_self" download>
-        <i class="fa fa-download"></i>Example file input
-      </a>
-      <label for="exampleFormControlFile1">Please upload your spreadsheet</label>
-      <input type="file" #fileInput placeholder="Upload file..."/>
-      <button type="button" (click)="upload()">Upload</button>
+      <h4 class="card-title">Upload a Spreadsheet</h4>
+      <p>
+        Download an example spreadsheet:<br/>
+        <a href="assets/empty-spreadsheet-v3.xlsx" class="btn btn-primary"target="_self" download >Download example</a>
+      </p>
+      <p>
+        Upload your completed spreadsheet:<br/>
+        <input type="file" (change)="resetMessages()" #fileInput placeholder="Upload file..."/><br/><br/>
+        <button type="button" (click)="upload()" class="btn btn-success">Upload spreadsheet</button>
+      </p>
     </div>
-  </div>
-  <div *ngIf="uploadResults$">
-    <p>Upload successful: {{uploadResults$.message}}</p>
-  </div>
-  <div *ngIf="error$">
-    <p>Upload failed: {{error$.message}}</p>
-    <p>Details: {{error$.details}}</p>
+    <div  class="alert alert-success" role="alert" *ngIf="uploadResults$">
+      <p><b>{{uploadResults$.message}}</b></p>
+      <p>The submission id  <a routerLink="/submissions/{{uploadResults$.details.submission_id}}}" class="text-info" >{{uploadResults$.details.submission_uuid}}</a> has been assigned.</p>
+    </div>
+    <div  class="alert alert-danger" role="alert" *ngIf="error$">
+      <p><b>{{error$.message}}</b></p>
+      <p>{{error$.details}}</p>
+    </div>
   </div>
 </div>
