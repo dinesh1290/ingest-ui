@@ -13,9 +13,12 @@ export class UploadComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput;
 
+  error$: Observable<String>;
+
   uploadResults$: Observable<UploadResults>;
 
-  constructor(private brokerService: BrokerService) { }
+  constructor(private brokerService: BrokerService) {
+  }
 
   ngOnInit() {
   }
@@ -25,8 +28,11 @@ export class UploadComponent implements OnInit {
     if (fileBrowser.files && fileBrowser.files[0]) {
       const formData = new FormData();
       formData.append("file", fileBrowser.files[0]);
-      this.uploadResults$ = this.brokerService.uploadSpreadsheet(formData);
-      this.uploadResults$.subscribe(res => console.log(res));
+      this.brokerService.uploadSpreadsheet(formData)
+        .subscribe(
+          data => this.uploadResults$ = <any>data,
+          err => this.error$ = <any>err
+        );
     }
   }
 }
