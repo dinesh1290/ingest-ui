@@ -11,6 +11,7 @@ import {FlattenService} from "../../shared/services/flatten.service";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Page, PagedData} from "../../shared/models/page";
 import {Subscription} from "rxjs/Subscription";
+import {SchemaService} from "../../shared/services/schema.service";
 
 @Component({
   selector: 'app-metadata-list',
@@ -44,7 +45,7 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
 
   private isLoading: boolean = false;
 
-  editing = {};s
+  editing = {};
 
   iconsDir:string;
 
@@ -57,7 +58,8 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
   isPaginated: boolean;
 
   constructor(private ingestService: IngestService,
-              private flattenService: FlattenService) {
+              private flattenService: FlattenService,
+              private schemaService: SchemaService) {
     this.iconsDir = 'assets/open-iconic/svg';
     this.pollInterval = 4000; //4s
     this.alive = true;
@@ -120,7 +122,7 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
     return columns;
   }
 
-  getMetadataType(rowIndex){
+  getMetadataTypeV4(rowIndex){
     let row = this.metadataList[rowIndex];
     let content = row['content'];
     let type = content && content['core'] ? content['core']['type'] : '';
@@ -136,6 +138,37 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
     return type;
   }
 
+  getSchemaUrl(row){
+    let schemaUrl = row['content.core.schema_url']; //v4
+    schemaUrl = row['content.describedBy']; //v5
+    return schemaUrl;
+  }
+
+  getMetadataType(rowIndex){
+    let row = this.metadataList[rowIndex];
+    let schemaId = row['content'] ? row['content']['describedBy'] : '';
+    if(!schemaId){
+      return 'unknown';
+    }
+    let type = schemaId.split('/').pop();
+    this.metadataList[rowIndex]['metadataType'] = type;
+
+    return type;
+  }
+
+  getCellClass({ row, column, value }){
+    let validationErrors = row['validationErrors'];
+    let invalidColumns = [];
+
+    for (let i in validationErrors){
+      let validationError = validationErrors[i];
+      let absolutePath = validationError['absolute_path'].join('.');
+      invalidColumns.push(absolutePath);
+    }
+    // console.log(invalidColumns);
+    return invalidColumns.indexOf(column.name) >= 0 ? 'invalid-value' : '';
+
+  }
   getDefaultValidMessage(){
     let validMessage = 'Metadata is valid.';
 
@@ -149,15 +182,50 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
   updateValue(event, cell, rowIndex) {
     console.log('inline editing rowIndex', rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
-    this.metadataList[rowIndex][cell] = event.target.value;
-    this.metadataList = [...this.metadataList];
-    console.log('UPDATED!', this.metadataList[rowIndex][cell]);
-    console.log(this.metadataList[rowIndex]);
+
+    let oldValue = this.rows[rowIndex][cell];
+    let newValue = event;
+
+    console.log('newValue', newValue);
+
+    if( oldValue !== newValue){
+      this.rows[rowIndex][cell] = newValue;
+      this.rows = [...this.rows];
+
+      console.log('METADATA LIST ROW!', this.metadataList[rowIndex]);
+      console.log('ROWS!', this.rows);
+
+      let changedRow = this.rows[rowIndex];
+      let unflattenedRow = this.flattenService.unflatten(changedRow);
+
+      let content = unflattenedRow['content'];
+      console.log('content', content);
+
+      let metadataLink = this.metadataList[rowIndex]['_links']['self']['href'];
+
+      this.ingestService.put(metadataLink, content).subscribe((response) => {
+          console.log('patching metadata')
+          console.log("Response is: ", response);
+        },
+        (error) => {
+          console.error("An error occurred, ", error);
+        });
+
+    }
   }
 
-  getValidationErrors(row){
-    return row['validationErrors[0].user_friendly_message'];
-    //TODO retrieve all validation errors
+  getValidationErrors(rowIndex){
+    // console.log(rowIndex);
+    let validationErrors = this.metadataList[rowIndex]['validationErrors'];
+    let messages = [];
+
+    for (let i in validationErrors){
+      let validationError = validationErrors[i]
+      messages.push(validationError['user_friendly_message']);
+    }
+
+    return messages;
+
   }
 
   toggleExpandRow(row) {
@@ -194,15 +262,20 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
       this.metadataList$.subscribe(data => {
         this.rows = data.data.map(this.flattenService.flatten);
         this.metadataList = data.data;
+
         if(data.page){
           this.isPaginated = true;
           this.page = data.page;
         } else {
           this.isPaginated = false;
         }
+
       })
     }
   }
+
+
+
 
   startPolling(pageInfo){
     this.pollingSubscription = this.pollingTimer.subscribe(() => {

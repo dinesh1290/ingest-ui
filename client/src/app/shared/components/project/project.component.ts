@@ -16,7 +16,7 @@ export class ProjectComponent implements OnInit {
 
   projects$ : Observable<Project[]>;
   projects: Project[];
-  project: Object;
+  project: object;
 
   projectForm: FormGroup;
 
@@ -100,7 +100,7 @@ export class ProjectComponent implements OnInit {
   updateProject(id, projectData){
     let content = this.project['content'];
 
-    let patch = Object.assign(content, projectData);
+    let patch = object.assign(content, projectData);
 
     this.ingestService.putProject(id, patch).subscribe(
       data => {

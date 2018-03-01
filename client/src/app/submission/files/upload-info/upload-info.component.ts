@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class UploadInfoComponent implements OnInit {
 
   @Input() submissionEnvelope;
-  uploadDetails: Object;
+  uploadDetails: object;
 
   constructor() { }
 

@@ -20,7 +20,7 @@ export class IngestService {
   API_URL: string = environment.INGEST_API_URL;
 
   constructor(private http: HttpClient, private alertService: AlertService) {
-    console.log('api url', this.API_URL);
+    console.log('ingest api url', this.API_URL);
   }
 
   public getAllSubmissions(params): Observable<ListResult<SubmissionEnvelope>> {
@@ -57,66 +57,16 @@ export class IngestService {
       });
   }
 
-  public getFiles(id): Observable<Object[]> {
-    return this.http.get(`${this.API_URL}/submissionEnvelopes/${id}/files`)
-      .map((data: ListResult<Object>) => {
-        if(data._embedded && data._embedded.files)
-          return _.values(data._embedded.files);
-        else
-          return [];
-      })
-  }
+  // public getMetadataRows(submissionEnvelopeId, metadataEntity): Observable<object[]> {
+  //   return this.http.get(`${this.API_URL}/submissionEnvelopes/${submissionEnvelopeId}/${metadataEntity}`, {params: {'sort':'submissionDate,desc'}})
+  //     .map((data: ListResult<object>) => {
+  //       if(data._embedded && data._embedded[metadataEntity])
+  //         return _.values(data._embedded[metadataEntity]);
+  //       else
+  //         return [];
+  //     });
+  // }
 
-  public getSamples(submissionEnvelopeId): Observable<Object[]> {
-    return this.http.get(`${this.API_URL}/submissionEnvelopes/${submissionEnvelopeId}/samples`)
-      .map((data: ListResult<Object>) => {
-        if(data._embedded && data._embedded.samples)
-          return _.values(data._embedded.samples);
-        else
-          return [];
-      })
-  }
-
-  public getAnalyses(id): Observable<Object[]> {
-    return this.http.get(`${this.API_URL}/submissionEnvelopes/${id}/analyses`)
-      .map((data: ListResult<Object>) => {
-        if(data._embedded && data._embedded.analyses)
-          return _.values(data._embedded.analyses);
-        else
-          return [];
-      })
-  }
-
-  public getAssays(id): Observable<Object[]> {
-    return this.http.get(`${this.API_URL}/submissionEnvelopes/${id}/assays`)
-      .map((data: ListResult<Object>) => {
-        if(data._embedded && data._embedded.assays)
-          return _.values(data._embedded.assays);
-        else
-          return [];
-      })
-  }
-
-  //there's no pagination, check core code
-  public getBundles(id): Observable<Object[]> {
-    return this.http.get(`${this.API_URL}/submissionEnvelopes/${id}/bundleManifests`)
-      .map((data: ListResult<Object>) => {
-        if(data._embedded && data._embedded.bundleManifests)
-          return _.values(data._embedded.bundleManifests);
-        else
-          return [];
-      })
-  }
-
-  public getProtocols(id): Observable<Object[]> {
-    return this.http.get(`${this.API_URL}/submissionEnvelopes/${id}/protocols`)
-      .map((data: ListResult<Object>) => {
-        if(data._embedded && data._embedded.protocols)
-          return _.values(data._embedded.protocols);
-        else
-          return [];
-      })
-  }
 
   public submit(submitLink){
     this.http.put(submitLink, null).subscribe(
@@ -134,21 +84,21 @@ export class IngestService {
     return this.http.get<SubmissionEnvelope>(`${this.API_URL}/submissionEnvelopes/${id}`);
   }
 
-  public getProject(id): Observable<Object> {
+  public getProject(id): Observable<object> {
     return this.http.get(`${this.API_URL}/projects/${id}`);
   }
 
-  public postProject(project): Observable<Object>{
+  public postProject(project): Observable<object>{
     return this.http.post(`${this.API_URL}/projects`, project);
   }
 
-  public putProject(id, project): Observable<Object>{
+  public putProject(id, project): Observable<object>{
     return this.http.put(`${this.API_URL}/projects/${id}`, project);
   }
 
-  public getSubmissionProject(submissionId): Observable<Object> {
+  public getSubmissionProject(submissionId): Observable<object> {
     return this.http.get(`${this.API_URL}/submissionEnvelopes/${submissionId}/projects`)
-      .map((data: ListResult<Object>) => {
+      .map((data: ListResult<object>) => {
         if(data._embedded && data._embedded.projects)
           return _.values(data._embedded.projects)[0]; // there should only be one project linked to the submission env
         else
@@ -156,9 +106,13 @@ export class IngestService {
       })
   }
 
+  public put(ingestLink, content){
+    return this.http.put(ingestLink, content);
+  }
+
   public fetchSubmissionData(submissionId, entityType, params): Observable<PagedData> {
     return this.http.get(`${this.API_URL}/submissionEnvelopes/${submissionId}/${entityType}`, {params: params})
-      .map((data: ListResult<Object>) => {
+      .map((data: ListResult<object>) => {
         let pagedData = new PagedData();
 
         if(data._embedded && data._embedded[entityType]){

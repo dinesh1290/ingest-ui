@@ -1,4 +1,3 @@
-<script src="../../shared/components/upload/upload.component.ts"></script>
 <div class="container-fluid"><br/>
   <br/>
   <app-upload [projectId]="projectId" *ngIf="!submissionEnvelopeId" ></app-upload>
@@ -7,18 +6,29 @@
   <div class="card" *ngIf="submissionEnvelopeId">
     <div class="card-body">
       <tabs [navClass]="'nav-tabs'">
-        <tab tabTitle="Samples">
-          <app-metadata-list [submissionEnvelopeId]="submissionEnvelopeId" [metadataType]="'samples'"> </app-metadata-list>
+        <tab tabTitle="Biomaterials">
+          <app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'biomaterials'"> </app-metadata-table>
         </tab>
-        <tab tabTitle="Protocols">
-          <app-metadata-list [submissionEnvelopeId]="submissionEnvelopeId" [metadataType]="'protocols'"> </app-metadata-list>
-        </tab>
-        <tab tabTitle="Assays">
-          <app-metadata-list [submissionEnvelopeId]="submissionEnvelopeId" [metadataType]="'assays'"> </app-metadata-list>
-        </tab>
-        <tab tabTitle="Analyses">
-          <app-metadata-list [submissionEnvelopeId]="submissionEnvelopeId" [metadataType]="'analyses'"> </app-metadata-list>
-        </tab>
+
+        <!--<tab tabTitle="Cell Line">-->
+          <!--<app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'biomaterials'" [metadataEntityType]="'cell_line'"> </app-metadata-table>-->
+        <!--</tab>-->
+        <!--<tab tabTitle="Donor Organism">-->
+          <!--<app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'biomaterials'" [metadataEntityType]="'donor_organism'"> </app-metadata-table>-->
+        <!--</tab>-->
+        <!--<tab tabTitle="Organoid">-->
+          <!--<app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'biomaterials'" [metadataEntityType]="'organoid'"> </app-metadata-table>-->
+        <!--</tab>-->
+        <!--<tab tabTitle="Specimen From Organism">-->
+          <!--<app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'biomaterials'" [metadataEntityType]="'specimen_from_organism'"> </app-metadata-table>-->
+        <!--</tab>-->
+
+        <!--<tab tabTitle="Protocols">-->
+          <!--<app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'protocols'"> </app-metadata-table>-->
+        <!--</tab>-->
+        <!--<tab tabTitle="Processes">-->
+          <!--<app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'processes'"> </app-metadata-table>-->
+        <!--</tab>-->
       </tabs>
     </div>
   </div>

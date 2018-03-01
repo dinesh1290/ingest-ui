@@ -18,13 +18,13 @@ export class SubmissionListComponent implements OnInit {
 
   submissionEnvelopes$: Observable<SubmissionEnvelope[]>;
 
-  submissionProjects: Object;
+  submissionProjects: object;
 
   submissionEnvelopes: SubmissionEnvelope[];
-  pagination: Object;
-  links: Object;
-  currentPageInfo: Object;
-  params: Object;
+  pagination: object;
+  links: object;
+  currentPageInfo: object;
+  params: object;
 
   interval: number;
 

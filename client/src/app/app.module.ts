@@ -48,6 +48,12 @@ import {LoaderService} from "./shared/services/loader.service";
 import {ConsentComponent} from './submission/consent/consent.component';
 import {FlattenService} from "./shared/services/flatten.service";
 import {SchemaService} from "./shared/services/schema.service";
+import {MetadataFieldComponent} from './metadata-field/metadata-field.component';
+import {
+  MatIconModule, MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
+  MatSortModule, MatTableModule, MatTooltipModule
+} from "@angular/material";
+import {MetadataTableComponent} from "./metadata-table/metadata-table.component";
 
 export function tokenGetter(): string {
   return localStorage.getItem('access_token');
@@ -78,7 +84,9 @@ export function tokenGetter(): string {
     LoginComponent,
     OverviewComponent,
     AlertComponent,
-    ConsentComponent
+    ConsentComponent,
+    MetadataTableComponent,
+    MetadataFieldComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -102,7 +110,14 @@ export function tokenGetter(): string {
     ReactiveFormsModule,
     NoopAnimationsModule,
     NgxDatatableModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatTooltipModule
   ],
   providers: [
     IngestService,

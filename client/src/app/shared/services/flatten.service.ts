@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class FlattenService {
 
-  flatten(data: Object) {
+  flatten(data: object) {
     let result = {};
 
     function recurse(cur, prop) {
@@ -22,11 +22,13 @@ export class FlattenService {
         if (isEmpty && prop) result[prop] = {};
       }
     }
+
     recurse(data, "");
+
     return result;
   };
 
-  unflatten(data: Object) {
+  unflatten(data: object) {
     "use strict";
     if (Object(data) !== data || Array.isArray(data)) return data;
     var regex = /\.?([^.\[\]]+)|\[(\d+)\]/g,

@@ -14,6 +14,7 @@ export class BrokerService {
   API_URL: string = environment.BROKER_API_URL;
 
   constructor(private http: HttpClient) {
+    console.log('broker api url', this.API_URL);
   }
 
   private handleError(operation: any) {

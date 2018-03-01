@@ -1,7 +1,7 @@
 export class Project {
   uuid : string;
   updateDate : string;
-  content: Object;
+  content: object;
 }
 
 export class ProjectContent {

@@ -6,10 +6,10 @@
     <div class="card-body" >
       <div class="row">
         <div class="col-lg-12">
-          <app-metadata-list [submissionEnvelopeId]="submissionEnvelopeId"
-                             [metadataType]="'files'"
-                             [config]="config">
-          </app-metadata-list>
+          <!--<app-metadata-table-->
+            <!--[submissionEnvelopeId]="submissionEnvelopeId"-->
+            <!--[metadataEntity]="'files'">-->
+          <!--</app-metadata-table>-->
         </div>
       </div>
     </div>
@@ -22,7 +22,9 @@
     <div class="card-body" >
     <div class="row">
       <div class="col-lg-12">
-        <app-upload-info [submissionEnvelope]="submissionEnvelope" *ngIf="submissionEnvelope && submissionEnvelope['stagingDetails']"></app-upload-info>
+        <app-upload-info [submissionEnvelope]="submissionEnvelope"
+                         *ngIf="submissionEnvelope && submissionEnvelope['stagingDetails']">
+        </app-upload-info>
       </div>
     </div>
     </div>

@@ -20,3 +20,7 @@
 datatable-body.datatable-body{
   height: 500px;
 }
+
+.invalid-value {
+  background: #ffe6e6;
+}

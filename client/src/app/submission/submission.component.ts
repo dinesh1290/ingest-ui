@@ -20,11 +20,11 @@ export class SubmissionComponent implements OnInit {
   submissionEnvelope;
   submissionState: string;
 
-  analyses: Object[];
-  assays: Object[];
-  bundles: Object[];
-  protocols: Object[];
-  samples: Object[];
+  analyses: object[];
+  assays: object[];
+  bundles: object[];
+  protocols: object[];
+  samples: object[];
 
   activeTab: string;
 

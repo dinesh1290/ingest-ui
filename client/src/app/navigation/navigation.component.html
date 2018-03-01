@@ -20,7 +20,7 @@
         <a class="nav-link" title="View all submissions" [routerLink]="['/submissions/list', {all: 1}]"><span class="oi oi-eye"></span></a>
       </li>
     </ul>
-    
+
     <ul *ngIf="auth.isAuthenticated()" class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
       <li class="nav-item dropdown">
         <a *ngIf="auth.isAuthenticated()" class="nav-item nav-link dropdown-toggle mr-md-2" href="/home" id="bd-versions"

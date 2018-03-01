@@ -15,9 +15,9 @@ export class FilesComponent implements OnInit {
   @Input() submissionEnvelope;
   @Input() files$;
 
-  files : Object[];
+  files : object[];
 
-  config: Object;
+  config: object;
 
   constructor() {
   }

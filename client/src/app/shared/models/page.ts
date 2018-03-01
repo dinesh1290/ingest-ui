@@ -12,6 +12,6 @@ export class Page {
 
 
 export class PagedData {
-  data: Object[];
+  data: object[];
   page: Page;
 }

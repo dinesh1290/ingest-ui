@@ -1,8 +1,5 @@
-<script src="submission.component.ts"></script>
-<script src="../shared/components/project/project.component.ts"></script>
 <div class="container-fluid">
   <br/>
-
   <div class="row">
     <div class="col-sm-10"><h1> Submission</h1></div>
     <div class="col-sm-2">
@@ -33,12 +30,7 @@
         <tab [href]="'metadata'" tabTitle="Metadata" [active]="activeTab == 'metadata'">
           <app-metadata
             [projectId]="projectId"
-            [submissionEnvelopeId]="submissionEnvelopeId"
-            [samples]="samples"
-            [assays]="assays"
-            [protocols]="protocols"
-            [analyses]="analyses"
-            >
+            [submissionEnvelopeId]="submissionEnvelopeId">
           </app-metadata>
         </tab>
         <tab [href]="'data'" tabTitle="Data" [active]="activeTab == 'data'" [disabled]="!submissionEnvelopeId">
@@ -53,13 +45,10 @@
             [submissionEnvelope$]="submissionEnvelope$"
             [submitLink]="submitLink"
             [isSubmitted]="isSubmitted"
-
             [submissionEnvelopeId]="submissionEnvelopeId">
-
           </app-submit>
         </tab>
       </tabs>
-
     </div>
   </div>
 </div>
