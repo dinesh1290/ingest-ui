@@ -21,9 +21,9 @@
           <a routerLink="/projects/detail/{{getProjectId(project)}}" class="text-info" >{{getProjectId(project)}}</a>
         </td>
 
-        <td><span title="{{project?.content?.name}}"> {{ project?.content?.name }}</span></td>
+        <td><span title="{{project?.content?.project_core?.project_title}}"> {{ project?.project_core?.project_title }}</span></td>
 
-        <td><span title="{{project?.content?.project_id}}">{{ project?.content?.project_id }}</span></td>
+        <td><span title="{{project?.content?.project_core?.project_shortname}}">{{ project?.content?.project_core?.project_shortname }}</span></td>
 
         <td>
           <div [ngSwitch]="project?.validationState">
