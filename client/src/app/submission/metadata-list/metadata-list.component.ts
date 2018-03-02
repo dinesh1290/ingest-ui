@@ -179,6 +179,20 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
     return validMessage;
   }
 
+  revalidate(rowIndex){
+    let metadataLink = this.metadataList[rowIndex]['_links']['self']['href'];
+
+    this.ingestService.patch(metadataLink, {validationState: "Draft"}).subscribe(
+      (response) => {
+        console.log('patched metadata')
+        console.log("Response is: ", response);
+      },
+      (error) => {
+        console.error("An error occurred, ", error);
+      });
+
+  }
+
   updateValue(event, cell, rowIndex) {
     console.log('inline editing rowIndex', rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
@@ -227,7 +241,6 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
       (error) => {
         console.error("An error occurred, ", error);
       });
-
   }
 
   getValidationErrors(row){
