@@ -1,13 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {SchemaService} from "../../../shared/services/schema.service";
 
 @Component({
-  selector: 'app-metadata-field',
-  templateUrl: './metadata-field.component.html',
-  styleUrls: ['./metadata-field.component.css']
+  selector: 'app-metadata-list-field',
+  templateUrl: './metadata-list-field.component.html',
+  styleUrls: ['./metadata-list-field.component.css']
 })
-
-export class MetadataFieldComponent implements OnInit {
-
+export class MetadataListFieldComponent implements OnInit {
   @Input() value;
   @Input() metadataType;
   @Input() columnName;
@@ -15,11 +14,16 @@ export class MetadataFieldComponent implements OnInit {
 
   editMode: boolean = false;
 
-  @Input() columnDefinition: object;
+  columnDefinition: object;
 
-  constructor() {}
+  constructor(private schemaService: SchemaService) {
+    this.columnDefinition = {type:'string'};
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    let searchKey = this.metadataType + '.' + this.columnName;
+    // this.columnDefinition = this.schemaService.getSchemaFieldDefinition(searchKey);
+  }
 
   updateValue(event){
     this.editMode = false;
@@ -49,21 +53,6 @@ export class MetadataFieldComponent implements OnInit {
 
   }
 
-  stringify(value): string{
-
-    let newValue = value;
-
-    if(value instanceof Array && value.length > 0 && typeof value[0] !=='object') {
-      newValue = value ? value.join(',') : '';
-    }
-
-    if (!(value instanceof Array) && typeof value === 'object'){
-      newValue = JSON.stringify(value); //TODO list a column of that obj
-    }
-
-
-    return newValue;
-  }
 
 
 }

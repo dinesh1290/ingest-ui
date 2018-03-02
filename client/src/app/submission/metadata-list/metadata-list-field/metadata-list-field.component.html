@@ -2,18 +2,16 @@
   title="{{value}}"
   (dblclick)="editMode = true"
   *ngIf="!editMode">
-
-  <span style="visibility: hidden" *ngIf="!value && !columnDefinition['isRequired']">invisible</span>
-  <span class="missing-field" *ngIf="!value && columnDefinition['isRequired']">ERROR</span>
-  <span *ngIf="value">{{stringify(value)}}</span>
+  <span style="visibility: hidden" *ngIf="!value">invisible</span>
+  {{value}}
 </div>
 
 <ng-container *ngIf="editMode" [ngSwitch]="columnDefinition['type'] ">
   <!--<input-->
-    <!--autofocus-->
-    <!--(blur)="updateValue($event)"-->
-    <!--type="text"-->
-    <!--value="{{value}}"-->
+  <!--autofocus-->
+  <!--(blur)="updateValue($event)"-->
+  <!--type="text"-->
+  <!--value="{{value}}"-->
   <!--/>-->
   <!---->
   <span *ngSwitchCase="'string'">

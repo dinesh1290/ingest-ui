@@ -35,7 +35,7 @@
   <div class="card-body" >
     <tabs [navClass]="'nav-tabs'">
       <tab tabTitle="Bundles">
-        <!--<app-metadata-table [submissionEnvelopeId]="submissionEnvelopeId" [metadataEntity]="'bundleManifests'" > </app-metadata-table>-->
+        <app-metadata-list [submissionEnvelopeId]="submissionEnvelopeId" [metadataType]="'bundleManifests'" [config]="{displayAll: true, hideWhenEmptyRows: true}" > </app-metadata-list>
       </tab>
     </tabs>
   </div>

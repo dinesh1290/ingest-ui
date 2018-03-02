@@ -22,7 +22,7 @@ export class ProjectComponent implements OnInit {
 
   placeholder: any = {
 
-    projectId:  'A project id for your research project',
+    projectId:  'A short name for your research project',
                 // 'e.g. HCA-DEMO-PROJECT_ID',
 
     name:       'A title for your research project e.g. reflecting your project grant' ,
@@ -100,7 +100,7 @@ export class ProjectComponent implements OnInit {
   updateProject(id, projectData){
     let content = this.project['content'];
 
-    let patch = object.assign(content, projectData);
+    let patch = Object.assign(content, projectData);
 
     this.ingestService.putProject(id, patch).subscribe(
       data => {
@@ -143,27 +143,28 @@ export class ProjectComponent implements OnInit {
         this.createProject(projectData);
       }
     } else {
-
       this.alertService.error("","All fields are required!");
-
     }
 
 
   }
 
+  // TODO put schema urls and version in env vars
   extractProject(formValue){
     return {
-      core : {
-        type: "project",
-          schema_url: "https://raw.githubusercontent.com/HumanCellAtlas/metadata-schema/4.6.1/json_schema/project.json"
+      describedBy: "https://schema.humancellatlas.org/type/project/5.0.1/project",
+      schema_version: "5.0.0",
+      schema_type: "project",
+      project_core: {
+        describedBy: "https://schema.humancellatlas.org/core/project/5.0.0/project_core",
+        project_shortname: formValue['projectId'],
+        project_title: formValue['name'],
+        project_description: formValue['description']
       },
-
-      name: formValue['name'],
-      description: formValue['description'],
-      project_id: formValue['projectId'],
       contributors: [{
+        describedBy: "https://schema.humancellatlas.org/module/project/5.0.0/contact",
         email:this.profile.email,
-        name: this.profile.name
+        contact_name: this.profile.name
       }]
     };
   }

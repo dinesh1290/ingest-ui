@@ -200,8 +200,10 @@ export class MetadataDataSource implements DataSource<object> {
         let rows = [];
         let pagedData = <PagedData> data;
 
-        for(let m of pagedData.data){
+        for(let m of pagedData.data || []){
+
           let row = this.flattenService.flatten(m['content']);
+
           row['validationState'] = m['validationState'];
           let rowEntityType = row['describedBy'].split('/').pop();
 
@@ -212,6 +214,7 @@ export class MetadataDataSource implements DataSource<object> {
 
         this.metadataCountSubject.next(pagedData.page.totalElements);
         this.metadataSubject.next(rows);
+        console.log('rows', rows);
       });
   }
 

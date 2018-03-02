@@ -194,38 +194,56 @@ export class MetadataListComponent implements OnInit, AfterViewChecked, OnDestro
 
       console.log('METADATA LIST ROW!', this.metadataList[rowIndex]);
       console.log('ROWS!', this.rows);
-
-      let changedRow = this.rows[rowIndex];
-      let unflattenedRow = this.flattenService.unflatten(changedRow);
-
-      let content = unflattenedRow['content'];
-      console.log('content', content);
-
-      let metadataLink = this.metadataList[rowIndex]['_links']['self']['href'];
-
-      this.ingestService.put(metadataLink, content).subscribe((response) => {
-          console.log('patching metadata')
-          console.log("Response is: ", response);
-        },
-        (error) => {
-          console.error("An error occurred, ", error);
-        });
-
     }
+    // this.updateContent(rowIndex);
   }
 
-  getValidationErrors(rowIndex){
-    // console.log(rowIndex);
-    let validationErrors = this.metadataList[rowIndex]['validationErrors'];
-    let messages = [];
+  updateContent(rowIndex){
+    let changedRow = this.rows[rowIndex];
+    let unflattenedRow = this.flattenService.unflatten(changedRow);
 
-    for (let i in validationErrors){
-      let validationError = validationErrors[i]
-      messages.push(validationError['user_friendly_message']);
-    }
+    let content = unflattenedRow['content'];
+    console.log('content', content);
 
-    return messages;
+    let metadataLink = this.metadataList[rowIndex]['_links']['self']['href'];
 
+    this.ingestService.put(metadataLink, content).subscribe((response) => {
+        console.log('patching metadata')
+        console.log("Response is: ", response);
+      },
+      (error) => {
+        console.error("An error occurred, ", error);
+      });
+  }
+
+  revalidate(rowIndex){
+    let metadataLink = this.metadataList[rowIndex]['_links']['self']['href'];
+
+    this.ingestService.patch(metadataLink, {validationState: "Draft"}).subscribe(
+      (response) => {
+        console.log('patched metadata')
+        console.log("Response is: ", response);
+      },
+      (error) => {
+        console.error("An error occurred, ", error);
+      });
+
+  }
+
+  getValidationErrors(row){
+
+    return row['validationErrors[0].user_friendly_message'];
+
+    // TODO show all validation errors
+    // let validationErrors = this.metadataList[rowIndex]['validationErrors'];
+    // let messages = [];
+    //
+    // for (let i in validationErrors){
+    //   let validationError = validationErrors[i]
+    //   messages.push(validationError['user_friendly_message']);
+    // }
+    //
+    // return messages;
   }
 
   toggleExpandRow(row) {

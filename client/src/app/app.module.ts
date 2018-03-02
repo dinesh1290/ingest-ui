@@ -54,6 +54,7 @@ import {
   MatSortModule, MatTableModule, MatTooltipModule
 } from "@angular/material";
 import {MetadataTableComponent} from "./metadata-table/metadata-table.component";
+import { MetadataListFieldComponent } from './submission/metadata-list/metadata-list-field/metadata-list-field.component';
 
 export function tokenGetter(): string {
   return localStorage.getItem('access_token');
@@ -86,7 +87,8 @@ export function tokenGetter(): string {
     AlertComponent,
     ConsentComponent,
     MetadataTableComponent,
-    MetadataFieldComponent
+    MetadataFieldComponent,
+    MetadataListFieldComponent
   ],
   imports: [
     NgbModule.forRoot(),

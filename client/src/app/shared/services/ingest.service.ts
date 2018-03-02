@@ -57,17 +57,6 @@ export class IngestService {
       });
   }
 
-  // public getMetadataRows(submissionEnvelopeId, metadataEntity): Observable<object[]> {
-  //   return this.http.get(`${this.API_URL}/submissionEnvelopes/${submissionEnvelopeId}/${metadataEntity}`, {params: {'sort':'submissionDate,desc'}})
-  //     .map((data: ListResult<object>) => {
-  //       if(data._embedded && data._embedded[metadataEntity])
-  //         return _.values(data._embedded[metadataEntity]);
-  //       else
-  //         return [];
-  //     });
-  // }
-
-
   public submit(submitLink){
     this.http.put(submitLink, null).subscribe(
       res=> {
@@ -108,6 +97,10 @@ export class IngestService {
 
   public put(ingestLink, content){
     return this.http.put(ingestLink, content);
+  }
+
+  public patch(ingestLink, patchData){
+    return this.http.patch(ingestLink, patchData);
   }
 
   public fetchSubmissionData(submissionId, entityType, params): Observable<PagedData> {

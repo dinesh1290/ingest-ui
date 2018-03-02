@@ -58,10 +58,12 @@ export class SchemaService {
     this.getSchema(schemaId).subscribe(schema => {
       schema = this.getSubSchema(schemaId, schema);
 
+      let requiredFields = schema['required'];
       let schemaProperties = schema['properties'];
 
       for(let fieldName in schemaProperties) {
         let field = schemaProperties[fieldName];
+        field['isRequired'] = requiredFields.indexOf(fieldName) >=0;
 
         let prefix = parentFieldName;
         let key = prefix ? prefix + '.' + fieldName : fieldName;
@@ -76,11 +78,11 @@ export class SchemaService {
 
         } else if(field['type'] === 'array') {
           if(typeof field['items'] === 'object' && field['items']['$ref']){
-              this.fields[key] = field;
+              fieldMap[key] = field;
               let subSchemaId = field['items']['$ref'];
               this.recurseSchemaFields(fieldMap, key, subSchemaId);
           } else {
-            fieldMap = field;
+            fieldMap[key] = field;
           }
         }
       }
@@ -127,6 +129,10 @@ export class SchemaService {
 
   getSchemaFieldDefinition(schemaType, fieldName){
     return this.fields[schemaType][fieldName];
+  }
+
+  getSchemaFields(){
+    return this.fields;
   }
 
 }
